@@ -18,6 +18,8 @@ public class Book {
 
     private String description;
 
+    private int copiesSold;
+
     @ManyToOne
     @JoinColumn(name = "author_id")
     @JsonIgnoreProperties("books")
@@ -27,6 +29,11 @@ public class Book {
     @JoinColumn(name = "genre_id")
     @JsonIgnoreProperties("books")
     private Genre genre;
+
+    @ManyToOne
+    @JoinColumn(name = "publisher_id")
+    @JsonIgnoreProperties("books")
+    private Publisher publisher;
 
     public Long getId() {
         return id;
@@ -84,4 +91,19 @@ public class Book {
         this.genre = genre;
     }
 
+    public int getCopiesSold() {
+        return copiesSold;
+    }
+
+    public void setCopiesSold(int copiesSold) {
+        this.copiesSold = copiesSold;
+    }
+
+    public Publisher getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(Publisher publisher) {
+        this.publisher = publisher;
+    }
 }

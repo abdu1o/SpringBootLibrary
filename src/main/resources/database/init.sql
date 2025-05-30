@@ -39,4 +39,12 @@ create table if not exists books
 alter table books
     owner to postgres;
 
+create table if not exists publishers
+(
+    id   serial
+        primary key,
+    name varchar(255) not null
+);
 
+alter table genres
+    owner to postgres;

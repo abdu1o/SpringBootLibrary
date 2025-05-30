@@ -1,25 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8" />
     <title>Books List</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            margin-bottom: 20px;
-        }
-        th, td {
-            border: 1px solid #ccc;
-            padding: 8px;
-        }
-        th {
-            background-color: #f0f0f0;
-        }
-        td form {
-            display: inline;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
 <body>
 
@@ -34,22 +18,26 @@
         <th>Year</th>
         <th>Pages</th>
         <th>Description</th>
+        <th>Copies Sold</th>
+        <th>Publisher</th>
         <th>Actions</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="book : ${books}">
-        <td th:text="${book.title}">Title</td>
-        <td th:text="${book.author.name}">Author</td>
-        <td th:text="${book.genre.name}">Genre</td>
-        <td th:text="${book.year}">Year</td>
-        <td th:text="${book.pageAmount}">Pages</td>
-        <td th:text="${book.description}">Description</td>
+        <td th:text="${book.title} ?: '—'">Title</td>
+        <td th:text="${book.author?.name} ?: '—'">Author</td>
+        <td th:text="${book.genre?.name} ?: '—'">Genre</td>
+        <td th:text="${book.year} ?: '—'">Year</td>
+        <td th:text="${book.pageAmount} ?: '—'">Pages</td>
+        <td th:text="${book.description} ?: '—'">Description</td>
+        <td th:text="${book.copiesSold} ?: '—'">Copies Sold</td>
+        <td th:text="${book.publisher?.name} ?: '—'">Publisher</td>
         <td>
             <a th:href="@{'/books/edit/' + ${book.id}}">
                 <button type="button">Edit</button>
             </a>
-            <form th:action="@{'/books/delete/' + ${book.id}}" method="post" style="display:inline;">
+            <form th:action="@{'/books/delete/' + ${book.id}}" method="post">
                 <button type="submit">Delete</button>
             </form>
         </td>
@@ -58,16 +46,41 @@
 </table>
 
 <h1>Search by:</h1>
-<form th:action="@{/books/search}" method="get" style="margin-bottom: 20px;">
-    <label>Title: <input type="text" name="title" th:value="${title}" /></label>
-    <label>Author: <input type="text" name="author" th:value="${author}" /></label>
-    <label>Pages: <input type="number" name="pages" min="1" th:value="${pages}" /></label>
+<form th:action="@{/books/search}" method="get" class="search-form">
+    <label>Title:
+        <input type="text" name="title" th:value="${title} ?: ''" />
+    </label>
+    <label>Author:
+        <input type="text" name="author" th:value="${author} ?: ''" />
+    </label>
+    <label>Pages:
+        <input type="number" name="pages" min="1" th:value="${pages} ?: ''" />
+    </label>
+    <label>Year:
+        <input type="number" name="year" th:value="${year} ?: ''" />
+    </label>
+    <label>Publisher:
+        <input type="text" name="publisher" th:value="${publisher} ?: ''" />
+    </label>
+    <label>Description:
+        <input type="text" name="description" th:value="${description} ?: ''" />
+    </label>
+
     <button type="submit">Search</button>
-    <a th:href="@{/}">Reset</a>
 </form>
+<div class="button-row">
+    <a th:href="@{/}">
+        <button type="submit">Reset</button>
+    </a>
 
+    <a th:href="@{/books/best-sellers}">
+        <button type="submit">Show Best Sellers</button>
+    </a>
 
-<a href="/books/add">Add New Book</a>
+    <a th:href="@{/books/add}">
+        <button type="submit">Add New Book</button>
+    </a>
+</div>
 
 </body>
 </html>

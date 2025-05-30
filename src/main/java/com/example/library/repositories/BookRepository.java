@@ -15,5 +15,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     List<Book> findByPageAmount(int pageAmount);
     @Query("SELECT b FROM Book b WHERE LOWER(b.author.name) LIKE LOWER(CONCAT('%', :authorName, '%'))")
     List<Book> findByAuthorName(@Param("authorName") String authorName);
+
+    List<Book> findByCopiesSoldGreaterThanEqual(int soldCopies);
+
 }
 
