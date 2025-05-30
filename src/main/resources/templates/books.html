@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Books List</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
+        th {
+            background-color: #f0f0f0;
+        }
+        td form {
+            display: inline;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Books</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Genre</th>
+        <th>Year</th>
+        <th>Pages</th>
+        <th>Description</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book : ${books}">
+        <td th:text="${book.title}">Title</td>
+        <td th:text="${book.author.name}">Author</td>
+        <td th:text="${book.genre.name}">Genre</td>
+        <td th:text="${book.year}">Year</td>
+        <td th:text="${book.pageAmount}">Pages</td>
+        <td th:text="${book.description}">Description</td>
+        <td>
+            <a th:href="@{'/books/edit/' + ${book.id}}">
+                <button type="button">Edit</button>
+            </a>
+            <form th:action="@{'/books/delete/' + ${book.id}}" method="post" style="display:inline;">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<h1>Search by:</h1>
+<form th:action="@{/books/search}" method="get" style="margin-bottom: 20px;">
+    <label>Title: <input type="text" name="title" th:value="${title}" /></label>
+    <label>Author: <input type="text" name="author" th:value="${author}" /></label>
+    <label>Pages: <input type="number" name="pages" min="1" th:value="${pages}" /></label>
+    <button type="submit">Search</button>
+    <a th:href="@{/}">Reset</a>
+</form>
+
+
+<a href="/books/add">Add New Book</a>
+
+</body>
+</html>
