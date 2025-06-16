@@ -104,15 +104,17 @@ public class BooksController {
     public String searchBooks(
             @RequestParam(required = false) String title,
             @RequestParam(required = false) String author,
+            @RequestParam(required = false) String genre,
             @RequestParam(required = false) Integer pages,
             @RequestParam(required = false) Integer year,
             @RequestParam(required = false) String publisher,
             @RequestParam(required = false) String description,
             Model model) {
 
-        List<Book> results = bookService.searchBooks(title, author, pages, year, publisher, description);
+        List<Book> results = bookService.searchBooks(title, author, genre, pages, year, publisher, description);
         model.addAttribute("books", results);
         model.addAttribute("title", title);
+        model.addAttribute("genre", genre);
         model.addAttribute("author", author);
         model.addAttribute("pages", pages);
         model.addAttribute("year", year);

@@ -79,10 +79,13 @@ public class BookService {
         bookRepository.deleteById(id);
     }
 
-    public List<Book> searchBooks(String title, String authorName, Integer pages, Integer year, String publisher, String description) {
+    public List<Book> searchBooks(String title, String authorName, String genre, Integer pages, Integer year, String publisher, String description) {
         return bookRepository.findAll().stream()
                 .filter(b -> title == null || title.isEmpty() || b.getTitle().toLowerCase().contains(title.toLowerCase()))
-                .filter(b -> authorName == null || authorName.isEmpty() || b.getAuthor().getName().toLowerCase().contains(authorName.toLowerCase()))
+                .filter(b -> authorName == null || authorName.isEmpty() ||
+                        (b.getAuthor() != null && b.getAuthor().getName().toLowerCase().contains(authorName.toLowerCase())))
+                .filter(b -> genre == null || genre.isEmpty() ||
+                        (b.getGenre() != null && b.getGenre().getName().toLowerCase().contains(genre.toLowerCase())))
                 .filter(b -> pages == null || b.getPageAmount() == pages)
                 .filter(b -> year == null || b.getYear() == year)
                 .filter(b -> publisher == null || publisher.isEmpty() ||
@@ -91,6 +94,7 @@ public class BookService {
                         (b.getDescription() != null && b.getDescription().toLowerCase().contains(description.toLowerCase())))
                 .toList();
     }
+
 
     public List<Book> getBestSellers() {
         return bookRepository.findByCopiesSoldGreaterThanEqual(50000);
